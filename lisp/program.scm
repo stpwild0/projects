@@ -1,7 +1,7 @@
-(define (delete_element_at list counter)
+(define (delete_element_at list pos)
   (cond
-    [(zero? counter) (cdr list)]
-    [else (cons (car list) (delete_element_at (cdr list) (- counter 1)))])
+    [(zero? pos) (cdr list)]
+    [else (cons (car list) (delete_element_at (cdr list) (- pos 1)))])
   )
 
 (define (equal_list? list1 list2)
@@ -20,6 +20,16 @@
     [else (subset? (cdr seqs_to_search) seq_to_find)])
   )
 
+(define (generate_subseqs seq pos)
+  (cond 
+    [(zero? pos) (delete_element_at seq pos)]
+    [else (cons (generate_subseqs seq (- pos 1)) (delete_element_at seq pos))])
+  )
+
+(define (subseqs seq)
+  (generate_subseqs seq (- (length seq) 1))
+  )
+
 (begin 
-  (subset? '((1 2) (1 3) (1 4)) '(1 2))
+  (subseqs '(1 2 3))
   )
