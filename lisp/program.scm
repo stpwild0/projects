@@ -4,16 +4,17 @@
       (last (cdr list)))
   )
 
-(define (multiply2 set)
-  list
-  
+(define (expand_single set previous)
+  (if (null? previous)
+      (expand_single )
+      ())
   )
 
-(define (multiply size list)
-  (if (<= (length (cdr list)) (length (last list)))
-      (cons (cdr list) (multiply (car list)))
-      list
-   )
+
+(define (next_iter size list previous)
+  (if (null? previous) 
+      (next_iter (cdr previous) (expand_single (car previous) '()))
+      ())
   )
 
 (define (initial_array size prev_array)
@@ -22,10 +23,10 @@
       (list (list empty) prev_array))
   )
 
-(define (expand size sorted_array)
-  (multiply size (last sorted_array))
+(define (build size sorted_array)
+  (next_iter size (last sorted_array) '())
   )
 
 (begin
-  (expand 4 (initial_array 4 '()))
+  (build 4 (initial_array 4 '()))
   )
