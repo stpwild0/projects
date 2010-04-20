@@ -1,8 +1,6 @@
 (define (initial_array size prev_array)
   (if (positive? size)
-      (if (null? prev_array)
-          (initial_array (- size 1) (cons (cons size '()) '()))
-          (initial_array (- size 1) (cons (cons size '()) prev_array)))
+      (initial_array (- size 1) (cons (cons size '()) prev_array))
       prev_array)
   )
 
