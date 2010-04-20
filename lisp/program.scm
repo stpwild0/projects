@@ -22,8 +22,8 @@
 
 (define (generate_subseqs seq pos)
   (cond 
-    [(zero? pos) (delete_element_at seq pos)]
-    [else (cons (generate_subseqs seq (- pos 1)) (delete_element_at seq pos))])
+    [(zero? pos) (list (delete_element_at seq pos))]
+    [else (cons (delete_element_at seq pos) (generate_subseqs seq (- pos 1)))])
   )
 
 (define (subseqs seq)
@@ -31,5 +31,5 @@
   )
 
 (begin 
-  (subseqs '(1 2 3))
+  (subseqs '(1 2 3 4 5 6))
   )
