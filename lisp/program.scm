@@ -28,8 +28,10 @@
 
 (define (generate_subseqs seq pos)
   (cond 
-    [(zero? pos) (list (delete_element_at seq pos))]
-    [else (cons (delete_element_at seq pos) (generate_subseqs seq (- pos 1)))])
+    [(zero? pos)
+     (list (delete_element_at seq pos))]
+    [else (cons (delete_element_at seq pos)
+                (generate_subseqs seq (- pos 1)))])
   )
 
 (define (subseqs seq)
@@ -38,9 +40,15 @@
 
 (define (prepend_no_dup to_prepend original)
   (cond
-    [(null? to_prepend) '()]
-    [(subset? (last to_prepend) original) (prepend_no_dup (delete_element_at to_prepend (- (length to_prepend) 1)) original)]
-    [else (cons (cons (prepend_no_dup (delete_element_at to_prepend (- (length to_prepend) 1)) original) (last to_prepend)) original)])
+    [(subset? (car to_prepend) original)
+     (cond
+       [(null? (cdr to_prepend)) original]
+       [else (prepend_no_dup (cdr to_prepend) original)])]
+    [else 
+     (cond
+       [(null? (cdr to_prepend)) (cons (car to_prepend) original)]
+       [else (prepend_no_dup (cdr to_prepend) (cons (car to_prepend) original))])]
+    )
   )
 
 (begin 
