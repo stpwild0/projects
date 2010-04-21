@@ -10,6 +10,10 @@
     [else (cons (car list) (delete_element_at (cdr list) (- pos 1)))])
   )
 
+(define (delete_last list)
+  (delete_element_at list (- (length list) 1))
+ )
+
 (define (equal_list? list1 list2)
    (cond
      [(not (eq? (length list1) (length list2))) #f]
@@ -52,6 +56,14 @@
     )
   )
 
+(define (power remaining ans)
+  (cond
+    [(null? remaining) (cons '() ans)]
+    [else (power (cons (subseqs (last remaining)) (delete_last remaining))
+                 (cons (subseqs (last remaining)) remaining))]
+    )
+  )
+
 (begin 
-  (prepend_no_dup (subseqs '(1 3 4)) (subseqs '(2 3 4)))
+  (power '((1 2 3)) '((1 2 3))))
   )
