@@ -69,6 +69,8 @@
 (define (power seq)
   (cdr (power_rec (list seq) (list seq))))
 
-(begin 
-  (power '(1 2 3 4 5))
-  )
+(power '())
+(power '(1))
+(power '(1 2))
+(power '(1 2 3))
+(power '(1 2 3 4))
