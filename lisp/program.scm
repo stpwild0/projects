@@ -47,10 +47,11 @@
     [else 
      (cond
        [(null? (cdr to_prepend)) (cons (car to_prepend) original)]
-       [else (prepend_no_dup (cdr to_prepend) (cons (car to_prepend) original))])]
+       [else (cons (car to_prepend) (prepend_no_dup (cdr to_prepend) original))
+             ])]
     )
   )
 
 (begin 
-  (prepend_no_dup '((1 2) (1 3)) '((1 3) (1 4)))
+  (prepend_no_dup (subseqs '(1 3 4)) (subseqs '(2 3 4)))
   )
