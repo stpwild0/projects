@@ -56,14 +56,19 @@
     )
   )
 
-(define (power remaining ans)
+(define (power_rec remaining ans)
   (cond
-    [(null? remaining) (cons '() ans)]
-    [else (power (cons (subseqs (last remaining)) (delete_last remaining))
-                 (cons (subseqs (last remaining)) remaining))]
+    [(null? (car remaining)) (cons '() ans)]
+    [else (power_rec 
+           (prepend_no_dup (subseqs (last remaining)) (delete_last remaining))
+           (prepend_no_dup (subseqs (last remaining)) ans)
+           )]
     )
   )
 
+(define (power seq)
+  (cdr (power_rec (list seq) (list seq))))
+
 (begin 
-  (power '((1 2 3)) '((1 2 3))))
+  (power '(1 2 3 4 5))
   )
