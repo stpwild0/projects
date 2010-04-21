@@ -66,11 +66,12 @@
     )
   )
 
-(define (power seq)
+(define (POWER seq)
   (cdr (power_rec (list seq) (list seq))))
 
-(power '())
-(power '(1))
-(power '(1 2))
-(power '(1 2 3))
-(power '(1 2 3 4))
+(newline)
+(POWER '())
+(POWER '(1))
+(POWER '(1 2))
+(POWER '(1 2 3))
+(POWER '(1 2 3 4))
