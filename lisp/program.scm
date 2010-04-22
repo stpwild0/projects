@@ -1,3 +1,11 @@
+; Kevin Lin 9051-08229 Apr 22, 2010
+
+(define (size list)
+  (cond
+    [(null? list) 0]
+    [else (+ 1 (size (cdr list)))])
+  )
+
 (define (last list)
   (cond
     [(null? (cdr list)) (car list)]
@@ -11,12 +19,12 @@
   )
 
 (define (delete_last list)
-  (delete_element_at list (- (length list) 1))
+  (delete_element_at list (- (size list) 1))
  )
 
 (define (equal_list? list1 list2)
    (cond
-     [(not (eq? (length list1) (length list2))) #f]
+     [(not (eq? (size list1) (size list2))) #f]
      [(null? list1) #t]
      [(eq? (car list1) (car list2)) (equal_list? (cdr list1) (cdr list2))]
      [else #f]
@@ -33,13 +41,13 @@
 (define (generate_subseqs seq pos)
   (cond 
     [(zero? pos)
-     (list (delete_element_at seq pos))]
+     (cons (delete_element_at seq pos) '())]
     [else (cons (delete_element_at seq pos)
                 (generate_subseqs seq (- pos 1)))])
   )
 
 (define (subseqs seq)
-  (generate_subseqs seq (- (length seq) 1))
+  (generate_subseqs seq (- (size seq) 1))
   )
 
 (define (prepend_no_dup to_prepend original)
@@ -67,7 +75,7 @@
   )
 
 (define (POWER seq)
-  (cdr (power_rec (list seq) (list seq))))
+  (cdr (power_rec (cons seq '()) (cons seq '()))))
 
 (newline)
 (POWER '())

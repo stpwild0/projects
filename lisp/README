@@ -1,3 +1,9 @@
- 
+Scheme Power Set Generator
 
-You are allowed to use only the basic LISP constructs: 'car', 'cdr', 'cons', and 'cond', the basic predicates: ('null?', 'eq?', 'equal?', 'atom?', and 'cons?'), the arithmetic operators: ('+', '-', '*', and '/'), and the relational operators: ('=', '<', '>', '>=', '<=', '!=') discussed in the class. You have to write your own code for any other functions that you use in the program.  When in doubt… send me a message.
+Kevin Lin
+905108229
+
+Fully working.
+
+Invocation:
+mzscheme < program.scm 
