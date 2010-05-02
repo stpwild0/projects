@@ -1,0 +1,15 @@
+course(algorithms, mwf9, mcb209).
+course(models_and_analysis, mwf9, mcb211).
+course(data_structures, mwf3, mcb305).
+course(operating_systems, tth9, mcb306).
+course(programming_in_c, mwf1, mcb209).
+course(artificial_intelligence, tth3, mcb311).
+course(computer_architecture, tth1, neb2300).
+course(models_of_computation, tth11, mcb204).
+course(discrete_math, tth3, mcb204).
+course(information_retrieval, mwf3, mcb205).
+course(software_engineering, mwf11, mcb213).
+course(computer_vision, mwf1, neb2182).
+course(os_tools, tth1, mcb217).
+course(programming_lang, tth9, mcb311).
+course(programming_in_java, tth11, mcb204).
