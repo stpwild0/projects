@@ -1,8 +1,14 @@
 ['code.plg'].
-course(X, Y, Z).
+schedule(gibson, _, _, _).
+
+
+
+write('Does Dr. Smith teach Computer Architecture?'), teaches(smith, computer_architecture).
+write('Who teaches Information Retrieval?'), teaches(X, information_retrieval).
+
+write('What does Dr. Jones teach?'), teaches(jones, Y).
 ;
 ;
 ;
-;
-;
+
 

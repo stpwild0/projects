@@ -13,3 +13,23 @@ course(computer_vision, mwf1, neb2182).
 course(os_tools, tth1, mcb217).
 course(programming_lang, tth9, mcb311).
 course(programming_in_java, tth11, mcb204).
+
+teaches(smith, algorithms).
+teaches(jones, models_and_analysis).
+teaches(ray, data_structures).
+teaches(smith, operating_systems).
+teaches(ray, programming_in_c).
+teaches(jones, artificial_intelligence).
+teaches(gibson, computer_architecture).
+teaches(smith, models_of_computation).
+teaches(smith, discrete_math).
+teaches(jones, information_retrieval).
+teaches(gibson, software_engineering).
+teaches(jones, computer_vision).
+teaches(gibson, os_tools).
+teaches(ray, programming_lang).
+teaches(ray, programming_in_java).
+
+schedule(Lecturer, Course, Time, Place) :-
+	teaches(Lecturer, Course);
+	course(Course, Time, Place).
