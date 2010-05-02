@@ -30,6 +30,30 @@ teaches(gibson, os_tools).
 teaches(ray, programming_lang).
 teaches(ray, programming_in_java).
 
+coursetype(algorithms, theory).
+coursetype(models_and_analysis, theory).
+coursetype(data_structures, core).
+coursetype(operating_systems, core).
+coursetype(programming_in_c, prog).
+coursetype(artificial_intelligence, elective).
+coursetype(computer_architecture, core).
+coursetype(models_of_computation, theory).
+coursetype(discrete_math, theory).
+coursetype(information_retrieval, elective).
+coursetype(software_engineering, elective).
+coursetype(computer_vision, elective).
+coursetype(os_tools, core).
+coursetype(programming_lang, prog).
+coursetype(programming_in_java, prog).
+
 schedule(Lecturer, Course, Time, Place) :-
-	teaches(Lecturer, Course);
-	course(Course, Time, Place).
+	course(Course, Time, Place),
+	teaches(Lecturer, Course).
+
+sametime(LecturerA, LecturerB, TimeA) :-
+	schedule(LecturerA, _, TimeA, _),
+	schedule(LecturerB, _, TimeB, _),
+	TimeA == TimeB.
+
+takingtype(Student, Type) :-
+	

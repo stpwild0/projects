@@ -10,5 +10,15 @@ write('What does Dr. Jones teach?'), teaches(jones, Y).
 ;
 ;
 ;
+schedule(gibson, Course, Time, Place).
+;
+;
+;
+schedule(Lecturer, Course, tth9, _).
+;
 
+
+write('When do Dr. Smith and Dr. Jones teach at the same time?'), sametime(smith, jones, X).
+;
+;
 
