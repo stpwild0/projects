@@ -1,11 +1,7 @@
 ['code.plg'].
-schedule(gibson, _, _, _).
-
-
-
 write('Does Dr. Smith teach Computer Architecture?'), teaches(smith, computer_architecture).
 write('Who teaches Information Retrieval?'), teaches(X, information_retrieval).
-
+;
 write('What does Dr. Jones teach?'), teaches(jones, Y).
 ;
 ;
@@ -18,7 +14,21 @@ schedule(Lecturer, Course, tth9, _).
 ;
 
 
-write('When do Dr. Smith and Dr. Jones teach at the same time?'), sametime(smith, jones, X).
+write('When do Dr. Smith and Dr. Jones teach at the same time?'), sametime(smith, jones, Time).
 ;
 ;
+write('Who teaches at the same time Dr. Ray teaches?'), sametime(ray, Lecturer, Time).
+;
+;
+;
+write('Who is taking course of type "core"?'), findall(_, takingtype(X, elective), _).
+;
+write('What type of courses is JoAnne taking?'), findall(_, takingtype(joanne, X), _).
+write('2 courses scheduled at the same time in the same room?'), schedulingconflict(Room, _, CourseA, CourseB, Time).
+;
+write('One faculty member is scheduled to teach two classes at the same time?'), schedulingconflict(_, Lecturer, CourseA, CourseB, Time)
+;
+;
+;
+write('What courses do Michael and Joanne have in common?'), coursesincommon(michael, joanne, Course).
 

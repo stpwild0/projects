@@ -46,6 +46,16 @@ coursetype(os_tools, core).
 coursetype(programming_lang, prog).
 coursetype(programming_in_java, prog).
 
+taking(michael, algorithms).
+taking(michael, software_engineering).
+taking(michael, programming_lang).
+taking(joanne, artificial_intelligence).
+taking(joanne, information_retrieval).
+taking(joanne, programming_lang).
+taking(bill, algorithms).
+taking(bill, artificial_intelligence).
+taking(bill, computer_vision).
+
 schedule(Lecturer, Course, Time, Place) :-
 	course(Course, Time, Place),
 	teaches(Lecturer, Course).
@@ -53,7 +63,28 @@ schedule(Lecturer, Course, Time, Place) :-
 sametime(LecturerA, LecturerB, TimeA) :-
 	schedule(LecturerA, _, TimeA, _),
 	schedule(LecturerB, _, TimeB, _),
+	LecturerA \= LecturerB,
 	TimeA == TimeB.
 
+coursesincommon(StudentA, StudentB, Course) :-
+	taking(StudentA, Course),
+	taking(StudentB, Course),
+	StudentA \= StudentB.
+
 takingtype(Student, Type) :-
-	
+	taking(Student, Course),
+	coursetype(Course, Type).
+
+schedulingconflict(Room, Lecturer, CourseA, CourseB, Time) :-
+	roomconflict(Room, CourseA, CourseB, Time);
+	professorconflict(Lecturer, CourseA, CourseB, Time).
+
+roomconflict(Room, CourseA, CourseB, Time) :-
+	course(CourseA, Time, Room),
+	course(CourseB, Time, Room),
+	CourseA \= CourseB.
+
+professorconflict(Lecturer, CourseA, CourseB, Time) :-
+	schedule(Lecturer, CourseA, Time, _),
+	schedule(Lecturer, CourseB, Time, _),
+	CourseA \= CourseB.
