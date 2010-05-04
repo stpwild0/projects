@@ -1,0 +1,52 @@
+Welcome to SWI-Prolog (Multi-threaded, 32 bits, Version 5.6.64)
+Copyright (c) 1990-2008 University of Amsterdam.
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to redistribute it under certain conditions.
+Please visit http://www.swi-prolog.org for details.
+
+For help, use ?- help(Topic). or ?- apropos(Word).
+
+% rules.plg compiled 0.01 sec, 8,172 bytes
+true.
+
+1. Does Dr. Smith teach Computer Architecture?
+false.
+
+Who teaches Information Retrieval?
+Info_teacher = [jones].
+
+What does Dr. Jones teach?
+Jones_classes = [models_and_analysis, artificial_intelligence, information_retrieval, computer_vision].
+
+2. What is Dr. Gibson's schedule?
+Gibson_schedule = [ (computer_architecture, tth1, neb2300), (software_engineering, mwf11, mcb213), (os_tools, tth1, mcb217)].
+
+Who is scheduled to teach what on TTH from 9:00 -- 11:00am?
+Tth9_courses = [ (smith, operating_systems), (ray, programming_lang)].
+
+3. When do Dr. Smith and Dr. Jones teach at the same time?
+Smith_and_jones_common_time = [mwf9, tth3].
+
+Who teaches at the same time Dr. Ray teaches?
+Ray_concurrent_classes = [ (jones, mwf3), (jones, mwf1), (smith, tth9), (smith, tth11)].
+
+4. What courses do Michael and Joanne have in common?
+Common_courses = [programming_lang].
+
+What courses do Bill and Joanne have in common?
+Common_courses = [artificial_intelligence].
+
+5. Who is taking course of type "core"?
+Students_taking_core = [].
+
+What type of courses is JoAnne taking?
+Joannes_types = [elective, elective, prog].
+
+6. 2 courses scheduled at the same time in the same room?
+Double_booked_room = [ (mcb204, models_of_computation, programming_in_java, tth11), (mcb204, programming_in_java, models_of_computation, tth11)].
+
+One faculty member is scheduled to teach two classes at the same time?
+Double_book_professor = [ (gibson, computer_architecture, os_tools, tth1), (gibson, os_tools, computer_architecture, tth1)].
+
+
+% halt
