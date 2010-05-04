@@ -1,4 +1,4 @@
-['code.plg'].
+['rules.plg'].
 write('1. Does Dr. Smith teach Computer Architecture?'), teaches(smith, computer_architecture).
 write('Who teaches Information Retrieval?'), findall((Teacher),teaches(Teacher, information_retrieval), Info_teacher).
 write('What does Dr. Jones teach?'), findall((Class),teaches(jones, Class), Jones_classes).
