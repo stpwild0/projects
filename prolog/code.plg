@@ -60,11 +60,10 @@ schedule(Lecturer, Course, Time, Place) :-
 	course(Course, Time, Place),
 	teaches(Lecturer, Course).
 
-sametime(LecturerA, LecturerB, TimeA) :-
-	schedule(LecturerA, _, TimeA, _),
-	schedule(LecturerB, _, TimeB, _),
-	LecturerA \= LecturerB,
-	TimeA == TimeB.
+sametime(LecturerA, LecturerB, Time) :-
+	schedule(LecturerA, _, Time, _),
+	schedule(LecturerB, _, Time, _),
+	LecturerA \= LecturerB.
 
 coursesincommon(StudentA, StudentB, Course) :-
 	taking(StudentA, Course),

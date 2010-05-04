@@ -1,19 +1,9 @@
 ['code.plg'].
-write('Does Dr. Smith teach Computer Architecture?'), teaches(smith, computer_architecture).
-write('Who teaches Information Retrieval?'), teaches(X, information_retrieval).
-;
-write('What does Dr. Jones teach?'), teaches(jones, Y).
-;
-;
-;
-schedule(gibson, Course, Time, Place).
-;
-;
-;
-schedule(Lecturer, Course, tth9, _).
-;
-
-
+write('1. Does Dr. Smith teach Computer Architecture?'), teaches(smith, computer_architecture).
+write('Who teaches Information Retrieval?'), findall((Teacher),teaches(Teacher, information_retrieval), InformationRetrievalTeacher).
+write('What does Dr. Jones teach?'), findall((Class),teaches(jones, Class), JonesClasses).
+write('What is Dr. Gibson\'s schedule?'), findall((Course, Time, Place),schedule(gibson, Course, Time, Place),Courses).
+write('Who is scheduled to teach what on TTH from 9:00 -- 11:00am?'), findall((Lecturer, Course),schedule(Lecturer, Course, tth9, _),TTH9amCourses).
 write('When do Dr. Smith and Dr. Jones teach at the same time?'), sametime(smith, jones, Time).
 ;
 ;
