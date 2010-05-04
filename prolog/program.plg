@@ -1,19 +1,13 @@
 ['code.plg'].
 write('1. Does Dr. Smith teach Computer Architecture?'), teaches(smith, computer_architecture).
-write('Who teaches Information Retrieval?'), findall((Teacher),teaches(Teacher, information_retrieval), InformationRetrievalTeacher).
-write('What does Dr. Jones teach?'), findall((Class),teaches(jones, Class), JonesClasses).
-write('What is Dr. Gibson\'s schedule?'), findall((Course, Time, Place),schedule(gibson, Course, Time, Place),Courses).
-write('Who is scheduled to teach what on TTH from 9:00 -- 11:00am?'), findall((Lecturer, Course),schedule(Lecturer, Course, tth9, _),TTH9amCourses).
-write('When do Dr. Smith and Dr. Jones teach at the same time?'), sametime(smith, jones, Time).
-;
-;
-write('Who teaches at the same time Dr. Ray teaches?'), sametime(ray, Lecturer, Time).
-;
-;
-;
-write('Who is taking course of type "core"?'), findall(_, takingtype(X, elective), _).
-;
-write('What type of courses is JoAnne taking?'), findall(_, takingtype(joanne, X), _).
+write('Who teaches Information Retrieval?'), findall((Teacher),teaches(Teacher, information_retrieval), Info_teacher).
+write('What does Dr. Jones teach?'), findall((Class),teaches(jones, Class), Jones_classes).
+write('What is Dr. Gibson\'s schedule?'), findall((Course, Time, Place),schedule(gibson, Course, Time, Place),Gibson_schedule).
+write('Who is scheduled to teach what on TTH from 9:00 -- 11:00am?'), findall((Lecturer, Course),schedule(Lecturer, Course, tth9, _),TTH9am_courses).
+write('When do Dr. Smith and Dr. Jones teach at the same time?'), findall((Time),sametime(smith, jones, Time),Smith_and_jones_common_time).
+write('Who teaches at the same time Dr. Ray teaches?'), findall((Lecturer,Time), sametime(ray, Lecturer, Time), Ray_concurrent_classes).
+write('Who is taking course of type "core"?'), findall((Student), takingtype(Student, elective), Students_taking_core).
+write('What type of courses is JoAnne taking?'), findall(Type, takingtype(joanne, Type), Joannes_types).
 write('2 courses scheduled at the same time in the same room?'), schedulingconflict(Room, _, CourseA, CourseB, Time).
 ;
 write('One faculty member is scheduled to teach two classes at the same time?'), schedulingconflict(_, Lecturer, CourseA, CourseB, Time)
