@@ -74,9 +74,9 @@ takingtype(Student, Type) :-
 	taking(Student, Course),
 	coursetype(Course, Type).
 
-schedulingconflict(Room, Lecturer, CourseA, CourseB, Time) :-
-	roomconflict(Room, CourseA, CourseB, Time);
-	professorconflict(Lecturer, CourseA, CourseB, Time).
+schedulingconflict(Type, Room, Lecturer, CourseA, CourseB, Time) :-
+	(Type = 'room') -> roomconflict(Room, CourseA, CourseB, Time);
+	(Type = 'professor') -> professorconflict(Lecturer, CourseA, CourseB, Time).
 
 roomconflict(Room, CourseA, CourseB, Time) :-
 	course(CourseA, Time, Room),
