@@ -2,6 +2,7 @@ package edu.vt.kplin.shakesphere.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,5 +25,26 @@ public class PlayParser
 		NodeList acts = play.item(0).getChildNodes();
 		
 		return new Play();
+	}
+	
+	private static Act[] getActs(NodeList play)
+	{
+		ArrayList<Act> acts = new ArrayList<Act>();
+		for (int i = 0; i < play.getLength(); i++)
+		{
+			if (play.item(i).getNodeType() == Node.ELEMENT_NODE)
+			{
+				Element actElement = (Element)play.item(i);
+				Act act = parseAct(actElement);
+				acts.add(act);
+			}
+		}
+		
+		return acts.toArray()
+	}
+	
+	private static Act parseAct(Element act)
+	{
+		
 	}
 }
