@@ -22,9 +22,10 @@ public class PlayParser
 		
 		Document document = docBuilder.parse(new File(filename));
 		NodeList play = document.getElementsByTagName("PLAY");
-		NodeList acts = play.item(0).getChildNodes();
+		NodeList actsNodeList = play.item(0).getChildNodes();
+		Act[] acts = getActs(actsNodeList);
 		
-		return new Play();
+		return new Play(acts);
 	}
 	
 	private static Act[] getActs(NodeList play)
@@ -40,7 +41,8 @@ public class PlayParser
 			}
 		}
 		
-		return acts.toArray()
+		Act[] actArray = new actArray[]
+		return acts.to
 	}
 	
 	private static Act parseAct(Element act)
