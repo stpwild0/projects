@@ -1,20 +1,22 @@
 package edu.vt.kplin.shakesphere.server;
 import edu.vt.kplin.shakesphere.client.SceneEvent;
+import edu.vt.kplin.shakesphere.client.SceneInfo;
 
 public class Scene {
-	
-	public SceneEvent[] events;
+	String title;
+	SceneEvent[] events;
 	
 	@SuppressWarnings("unused")
 	private Scene(){}
-	public Scene(SceneEvent[] sceneEvents)
+	public Scene(String title, SceneEvent[] sceneEvents)
 	{
+		this.title = title;
 		this.events = sceneEvents;
 	}
 	
-	public int getEventCount()
+	public SceneInfo getSceneInfo()
 	{
-		return events.length;
+		return new SceneInfo(title, events.length);
 	}
 	
 	public SceneEvent getEvent(int number)

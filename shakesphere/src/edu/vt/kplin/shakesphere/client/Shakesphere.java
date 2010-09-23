@@ -115,14 +115,14 @@ public class Shakesphere implements EntryPoint {
 					return;
 				}
 				
-				AsyncCallback<Integer> actCountAsync = new AsyncCallback<Integer>()
+				AsyncCallback<PlayInfo> playInfoAsync = new AsyncCallback<PlayInfo>()
 				{
-					public void onSuccess(Integer count)
+					public void onSuccess(PlayInfo info)
 					{
 						dialogBox.setText("Remote Procedure Call");
 						serverResponseLabel
 								.removeStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(count.toString());
+						serverResponseLabel.setHTML(info.getTitle() + " " + info.getSubtitle() + " " + info.getNumberOfActs());
 						dialogBox.center();
 						closeButton.setFocus(true);
 					}
@@ -143,7 +143,7 @@ public class Shakesphere implements EntryPoint {
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				greetingService.getActCount("woo", actCountAsync);
+				greetingService.getPlayInfo("woo", playInfoAsync);
 			}
 		}
 

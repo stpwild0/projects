@@ -8,6 +8,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 import edu.vt.kplin.shakesphere.client.GreetingService;
+import edu.vt.kplin.shakesphere.client.PlayInfo;
 import edu.vt.kplin.shakesphere.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -54,10 +55,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public int getActCount(String playName) throws IllegalArgumentException {
+	public PlayInfo getPlayInfo(String playName) throws IllegalArgumentException {
 		try {
 			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/hamlet.xml");
-			return play.getActCount();
+			return play.getPlayInfo();
 			
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
@@ -71,10 +72,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return -2;
 		}
 		
-		return -1;
+		throw new IllegalArgumentException();
 	}
 
 	@Override

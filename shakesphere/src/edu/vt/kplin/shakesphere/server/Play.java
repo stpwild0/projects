@@ -1,23 +1,30 @@
 package edu.vt.kplin.shakesphere.server;
 
-public class Play {
+import edu.vt.kplin.shakesphere.client.PlayInfo;
 
-	private Act[] acts;
+public class Play {
+	String title;
+	String subtitle;
+	Act[] acts;
 	
 	@SuppressWarnings("unused")
 	private Play(){}
 
-	public Play(Act[] acts) {
+	public Play(String title, String subtitle, Act[] acts) {
+		this.title = title;
+		this.subtitle = subtitle;
 		this.acts = acts;
 	}
 	
-	public int getActCount()
+	public PlayInfo getPlayInfo()
 	{
-		return acts.length;
+		return new PlayInfo(title, subtitle, acts.length);
 	}
 	
 	public Act getAct(int actNumber)
 	{
 		return acts[actNumber];
 	}
+	
+	
 }
