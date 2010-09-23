@@ -31,6 +31,15 @@ public class Speech extends SceneEvent implements Serializable, Comparable<Speec
 		int thisLength = this.getSpeechEvents().length;
 		int thatLength = otherSpeech.getSpeechEvents().length;
 		
-		return thisLength - thatLength;
+		int diff = thisLength - thatLength;
+		
+		if(diff == 0)
+		{
+			SpeechLine thisFirst = (SpeechLine)this.speechEvents[0];
+			SpeechLine thatFirst = (SpeechLine)otherSpeech.speechEvents[0];
+			diff = thisFirst.compareTo(thatFirst);
+		}
+		
+		return diff;
 	}
 }

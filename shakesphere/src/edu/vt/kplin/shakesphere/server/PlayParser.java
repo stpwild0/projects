@@ -133,7 +133,7 @@ public class PlayParser
 	
 	private static SpeechEvent[] parseSpeechEvents(NodeList speechEventNodeList)
 	{
-		ArrayList<SpeechEvent> eventArrayList = new ArrayList<SpeechEvent>();
+		ArrayList<SpeechLine> eventArrayList = new ArrayList<SpeechLine>();
 		
 		for (int i = 0; i < speechEventNodeList.getLength(); i++)
 		{
@@ -148,6 +148,8 @@ public class PlayParser
 				//TODO implement for stage dir
 			}
 		}
+		
+		Collections.sort(eventArrayList);
 		
 		SpeechEvent[] speechEventArray = new SpeechEvent[eventArrayList.size()];
 		return eventArrayList.toArray(speechEventArray);
