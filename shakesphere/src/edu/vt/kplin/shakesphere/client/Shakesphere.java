@@ -43,6 +43,8 @@ public class Shakesphere implements EntryPoint {
 		}
 		
 		public void onFailure(Throwable caught) {
+			flexTable.removeAllRows();
+			addRow(flexTable, new HTML(SERVER_ERROR));
 		}
 	};
 	
@@ -171,15 +173,16 @@ public class Shakesphere implements EntryPoint {
 
 		@Override
 		public void onMouseUp(MouseUpEvent event) {
-			flexTable.clear();
-			
-			ListBox listBox = (ListBox)event.getSource();
-			int listIndex = listBox.getSelectedIndex();
+			flexTable.removeAllRows();
+			addRow(flexTable, new HTML("loading ..."));
 			
 			String tbText = textbox.getText();
 			int actIndex = stackPanel.getSelectedIndex();
 			
-			greetingService.getScene(tbText, listIndex, actIndex, sceneAsync);
+			ListBox listBox = (ListBox)event.getSource();
+			int sceneIndex = listBox.getSelectedIndex();
+			
+			greetingService.getScene(tbText, actIndex, sceneIndex, sceneAsync);
 		}
 	}
 		/*

@@ -1,10 +1,12 @@
 package edu.vt.kplin.shakesphere.server;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import edu.vt.kplin.shakesphere.client.GreetingService;
@@ -19,26 +21,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
-
-	public String greetServer(String input) throws IllegalArgumentException {
-		// Verify that the input is valid. 
-		if (!FieldVerifier.isValidName(input)) {
-			// If the input is not valid, throw an IllegalArgumentException back to
-			// the client.
-			throw new IllegalArgumentException(
-					"Name must be at least 4 characters long");
-		}
-
-		String serverInfo = getServletContext().getServerInfo();
-		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-
-		// Escape data from the client to avoid cross-site script vulnerabilities.
-		input = escapeHtml(input);
-		userAgent = escapeHtml(userAgent);
-
-		return "Hello, " + input + "!<br><br>I am running " + serverInfo
-				+ ".<br><br>It looks like you are using:<br>" + userAgent;
-	}
+	
+	Hashtable<String, Play> documents = new Hashtable<String, Play>();
 
 	/**
 	 * Escape an html string. Escaping data received from the client helps to
@@ -54,13 +38,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;");
 	}
-
-	@Override
-	public PlayInfo getPlayInfo(String playName) throws IllegalArgumentException {
+	
+	private Play getPlay(String playName)
+	{
+		String lowercaseName = playName.toLowerCase();
+		
+		if (documents.containsKey(lowercaseName))
+		{
+			return documents.get(lowercaseName);
+		}
+		
 		try {
 			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/"+ playName +".xml");
-			return play.getPlayInfo();
-			
+			documents.put(lowercaseName, play);
+			return play;
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,13 +68,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		throw new IllegalArgumentException();
 	}
+
+	@Override
+	public PlayInfo getPlayInfo(String playName) throws IllegalArgumentException {
+		Play play = getPlay(playName);
+		return play.getPlayInfo();
+	}
 	
 	@Override
 	public Scene getScene(String playName, int actIndex, int sceneIndex) throws IllegalArgumentException
 	{
 		try
 		{
-			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/"+ playName +".xml");
+			Play play = getPlay(playName);
 			Act act = play.getAct(actIndex);
 			Scene scene = act.getScene(sceneIndex);
 			return scene;
