@@ -9,13 +9,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,6 +33,35 @@ public class Shakesphere implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		Tree actTree = new Tree();
+		TreeItem scene1 = actTree.addItem("scene 1");
+		TreeItem scene2 = actTree.addItem("Scene 2");
+		scene1.addItem("woo");
+		scene1.addItem("woo2");
+		scene2.addItem("woo3");
+		scene2.addItem("woo4");
+		
+		StackPanel stackPanel = new DecoratedStackPanel();
+		stackPanel.setSize("100pc", "100pc");
+		stackPanel.add(actTree, "acts");
+		
+	    // Create a Horizontal Split Panel
+	    HorizontalSplitPanel hSplit = new HorizontalSplitPanel();
+	    //hSplit.ensureDebugId("cwHorizontalSplitPanel");
+	    hSplit.setSize("80pc", "50pc");
+	    hSplit.setSplitPosition("30%");
+
+	    // Add some content
+	    hSplit.setRightWidget(new HTML("asdfasdf asdfasfd"));
+	    hSplit.setLeftWidget(stackPanel);
+
+	    // Wrap the split panel in a decorator panel
+	    DecoratorPanel decPanel = new DecoratorPanel();
+	    decPanel.setWidget(hSplit);
+	    
+	    RootPanel.get().add(decPanel);
+	}
+		/*
 		final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
@@ -87,25 +110,16 @@ public class Shakesphere implements EntryPoint {
 
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
 			}
 
-			/**
-			 * Fired when the user types in the nameField.
-			 */
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					sendNameToServer();
 				}
 			}
 
-			/**
-			 * Send the name from the nameField to the server and wait for a response.
-			 */
 			private void sendNameToServer() {
 				// First, we validate the input.
 				errorLabel.setText("");
@@ -122,7 +136,7 @@ public class Shakesphere implements EntryPoint {
 						dialogBox.setText("Remote Procedure Call");
 						serverResponseLabel
 								.removeStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(info.getTitle() + " " + info.getSubtitle() + " " + info.getNumberOfActs());
+						serverResponseLabel.setHTML(info.getTitle() + " " + info.getSubtitle() + " " + info.getActInfoArray().length);
 						dialogBox.center();
 						closeButton.setFocus(true);
 					}
@@ -151,5 +165,5 @@ public class Shakesphere implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
-	}
+	}*/
 }

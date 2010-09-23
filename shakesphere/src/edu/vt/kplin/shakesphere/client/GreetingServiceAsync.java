@@ -8,6 +8,4 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface GreetingServiceAsync {
 	void getPlayInfo(String playName, AsyncCallback<PlayInfo> callback)
 		throws IllegalArgumentException;
-	
-	void getSceneCount(String playName, int actNumber, AsyncCallback<Integer> callback) throws IllegalArgumentException;
-}
+	}

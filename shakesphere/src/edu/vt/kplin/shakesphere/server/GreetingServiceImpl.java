@@ -76,11 +76,4 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		throw new IllegalArgumentException();
 	}
-
-	@Override
-	public int getSceneCount(String playName, int actNumber)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
