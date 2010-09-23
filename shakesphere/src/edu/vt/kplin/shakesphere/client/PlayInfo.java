@@ -6,16 +6,16 @@ import java.io.Serializable;
 public class PlayInfo implements Serializable {
 	String title;
 	String subtitle;
-	int numberOfActs;
+	ActInfo[] actInfoArray;
 	
 	@SuppressWarnings("unused")
 	private PlayInfo(){}
 	
-	public PlayInfo(String title, String subtitle, int numberOfActs)
+	public PlayInfo(String title, String subtitle, ActInfo[] actInfoArray)
 	{
 		this.title = title;
 		this.subtitle = subtitle;
-		this.numberOfActs = numberOfActs;
+		this.actInfoArray = actInfoArray;
 	}
 	
 	public String getTitle()
@@ -28,8 +28,8 @@ public class PlayInfo implements Serializable {
 		return subtitle;
 	}
 	
-	public int getNumberOfActs()
+	public ActInfo[] getActInfoArray()
 	{
-		return numberOfActs;
+		return actInfoArray;
 	}
 }

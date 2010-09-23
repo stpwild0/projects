@@ -5,15 +5,15 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class ActInfo implements Serializable {
 	String title;
-	int numberOfScenes;
+	SceneInfo[] sceneInfoArray;
 	
 	@SuppressWarnings("unused")
 	private ActInfo(){}
 	
-	public ActInfo(String title, int numberOfScenes)
+	public ActInfo(String title, SceneInfo[] sceneInfoArray)
 	{
 		this.title = title;
-		this.numberOfScenes = numberOfScenes;
+		this.sceneInfoArray = sceneInfoArray;
 	}
 	
 	public String getTitle()
@@ -21,8 +21,8 @@ public class ActInfo implements Serializable {
 		return title;
 	}
 	
-	public int getNumberOfScenes()
+	public SceneInfo[] getSceneInfoArray()
 	{
-		return numberOfScenes;
+		return sceneInfoArray;
 	}
 }

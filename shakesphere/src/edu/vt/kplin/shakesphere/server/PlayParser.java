@@ -15,7 +15,11 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import edu.vt.kplin.shakesphere.client.Scene;
 import edu.vt.kplin.shakesphere.client.SceneEvent;
+import edu.vt.kplin.shakesphere.client.Speech;
+import edu.vt.kplin.shakesphere.client.SpeechEvent;
+import edu.vt.kplin.shakesphere.client.SpeechLine;
 
 public class PlayParser
 {
@@ -28,7 +32,6 @@ public class PlayParser
 		DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
 		docBuilderFact.setNamespaceAware(true);
 		DocumentBuilder docBuilder = docBuilderFact.newDocumentBuilder();
-		File file = new File(filename);
 		Document document = docBuilder.parse(new File(filename));
 		
 		XPathExpression playTitleXPath = xPathFact.newXPath().compile("//PLAY/TITLE/text()");
@@ -59,7 +62,7 @@ public class PlayParser
 			NodeList scenes = (NodeList)scenesXPath.evaluate(actElement, XPathConstants.NODESET);
 			Scene[] sceneArray = parseScenes(scenes);
 			
-			Act act = new Act(title, emptyScene);
+			Act act = new Act(title, sceneArray);
 			actsArrayList.add(act);
 		}
 		
@@ -92,8 +95,61 @@ public class PlayParser
 	
 	private static SceneEvent[] parseEvents(NodeList eventNodeList) throws XPathExpressionException
 	{
-		ArrayList<SceneEvent> 
+		ArrayList<SceneEvent> eventArrayList = new ArrayList<SceneEvent>();
+		
+		for (int i = 0; i < eventNodeList.getLength(); i++)
+		{
+			Element eventElement = (Element)eventNodeList.item(i);
+			
+			if(eventElement.getTagName().equals("SPEECH"))
+			{
+				Speech speech = parseSpeech(eventElement);
+				eventArrayList.add(speech);
+			}
+			else
+			{
+				//TODO implement for stage dir
+			}
+		}
+		
+		SceneEvent[] eventArray = new SceneEvent[eventArrayList.size()];
+		return eventArrayList.toArray(eventArray);
 	}
+	
+	private static Speech parseSpeech(Element speechElement) throws XPathExpressionException
+	{
+		XPathExpression speakerXPath = xPathFact.newXPath().compile("/SPEAKER/text()");
+		String speaker = speakerXPath.evaluate(speechElement);
+		
+		XPathExpression speechEventXPath = xPathFact.newXPath().compile("/LINE | /STAGEDIR");
+		NodeList speechEventNodeList = (NodeList)speechEventXPath.evaluate(speechElement, XPathConstants.NODESET);
+		SpeechEvent[] speechEventArray = parseSpeechEvents(speechEventNodeList);
+		
+		return new Speech(speaker, speechEventArray);
+	}
+	
+	private static SpeechEvent[] parseSpeechEvents(NodeList speechEventNodeList)
+	{
+		ArrayList<SpeechEvent> eventArrayList = new ArrayList<SpeechEvent>();
+		
+		for (int i = 0; i < speechEventNodeList.getLength(); i++)
+		{
+			Element speechEventElement = (Element)speechEventNodeList.item(i);
+			
+			if(speechEventElement.getTagName().equals("LINE"))
+			{
+				eventArrayList.add(new SpeechLine(speechEventElement.getTextContent()));
+			}
+			else
+			{
+				//TODO implement for stage dir
+			}
+		}
+		
+		SpeechEvent[] speechEventArray = new SpeechEvent[eventArrayList.size()];
+		return eventArrayList.toArray(speechEventArray);
+	}
+	
 }
 
 

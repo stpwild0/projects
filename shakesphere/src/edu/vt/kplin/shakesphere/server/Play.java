@@ -1,5 +1,6 @@
 package edu.vt.kplin.shakesphere.server;
 
+import edu.vt.kplin.shakesphere.client.ActInfo;
 import edu.vt.kplin.shakesphere.client.PlayInfo;
 
 public class Play {
@@ -18,7 +19,13 @@ public class Play {
 	
 	public PlayInfo getPlayInfo()
 	{
-		return new PlayInfo(title, subtitle, acts.length);
+		ActInfo[] actInfoArray = new ActInfo[acts.length];
+		for (int i = 0; i < acts.length; i++)
+		{
+			actInfoArray[i] = acts[i].getActInfo();
+		}
+		
+		return new PlayInfo(title, subtitle, actInfoArray);
 	}
 	
 	public Act getAct(int actNumber)
