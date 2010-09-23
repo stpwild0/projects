@@ -6,7 +6,7 @@ public class Act {
 	private Scene[] scenes;
 	
 	private Act(){}
-	private Act(String title, Scene[] scenes)
+	public Act(String title, Scene[] scenes)
 	{
 		this.title = title;
 		this.scenes = scenes;

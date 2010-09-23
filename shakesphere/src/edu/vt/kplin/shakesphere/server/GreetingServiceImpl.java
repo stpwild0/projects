@@ -1,5 +1,12 @@
 package edu.vt.kplin.shakesphere.server;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.xml.sax.SAXException;
+
 import edu.vt.kplin.shakesphere.client.GreetingService;
 import edu.vt.kplin.shakesphere.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -48,8 +55,26 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public int getActCount(String playName) throws IllegalArgumentException {
+		try {
+			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/hamlet.xml");
+			return play.getActCount();
+			
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -2;
+		}
 		
-		return 0;
+		return -1;
 	}
 
 	@Override
