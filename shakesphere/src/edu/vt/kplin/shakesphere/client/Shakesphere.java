@@ -6,8 +6,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -23,44 +27,96 @@ public class Shakesphere implements EntryPoint {
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
-
+	
+    final AsyncCallback<Scene> sceneAsync = new AsyncCallback<Scene>()
+	{
+		public void onSuccess(Scene scene)
+		{
+			flexTable.removeAllRows();
+			for (int i = 0; i < scene.getSceneInfo().getNumberOfEvents(); i++)
+			{
+				SceneEvent sceneEvent = scene.getEvent(i);
+				Speech speech = (Speech)sceneEvent;
+				FlexTable speechFlexTable = getSpeechFlexTable(speech);
+				addRow(flexTable, speechFlexTable);
+			}
+		}
+		
+		public void onFailure(Throwable caught) {
+		}
+	};
+	
+	AsyncCallback<PlayInfo> playInfoAsync = new AsyncCallback<PlayInfo>()
+	{
+		public void onSuccess(PlayInfo info)
+		{
+			stackPanel.clear();
+			
+			ActInfo[] actInfoArray = info.getActInfoArray();
+			
+			for (int i = 0; i < actInfoArray.length; i++)
+			{
+				ActInfo actInfo = actInfoArray[i];
+				SceneInfo[] sceneInfoArray = actInfo.getSceneInfoArray();
+				
+				ListBox listBox = new ListBox(true);
+				
+				for (int j = 0; j < sceneInfoArray.length; j++)
+				{
+					listBox.addItem(sceneInfoArray[j].getTitle());
+				}
+				
+				TextBoxHandler tbHandler = new TextBoxHandler();
+				listBox.addMouseUpHandler(tbHandler);
+				
+				//int currentAct = stackPanel.getSelectedIndex();
+				
+				stackPanel.add(listBox, actInfo.getTitle());
+			}
+		}
+		
+		public void onFailure(Throwable caught) {
+			hSplit.setRightWidget(new HTML(SERVER_ERROR));
+		}
+	};
+	
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
-
+	
+	private final TextBox textbox = new TextBox();
+	private final FlexTable flexTable = new FlexTable();
+	private final StackPanel stackPanel = new StackPanel();
+	private final HorizontalSplitPanel hSplit = new HorizontalSplitPanel();
 	/**
 	 * This is the entry point method.
 	 */
-	public void onModuleLoad() {
-		final Tree actTree = new Tree();
-		TreeItem scene1 = actTree.addItem("scene 1");
-		TreeItem scene2 = actTree.addItem("Scene 2");
-		scene1.addItem("woo");
-		scene1.addItem("woo2");
-		scene2.addItem("woo3");
-		scene2.addItem("woo4");
-		
-		final StackPanel stackPanel = new DecoratedStackPanel();
+	public void onModuleLoad() {;
 		stackPanel.setSize("20pc", "40pc");
-		stackPanel.add(actTree, "acts");
+		
+		TextBoxHandler tbHandler = new TextBoxHandler();
+		textbox.addKeyUpHandler(tbHandler);
+		textbox.setText("hamlet");
 		
 	    // Create a Horizontal Split Panel
-	    final HorizontalSplitPanel hSplit = new HorizontalSplitPanel();
 	    //hSplit.ensureDebugId("cwHorizontalSplitPanel");
 	    hSplit.setSize("80pc", "50pc");
 	    hSplit.setSplitPosition("30%");
-	   
-        final FlexTable flexTable = new FlexTable();
+	    
         //FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
         flexTable.addStyleName("cw-FlexTable");
         flexTable.setWidth("32em");
         flexTable.setCellSpacing(5);
         flexTable.setCellPadding(3);
 	    
+        final VerticalPanel leftVerticalPanel = new VerticalPanel();
+        leftVerticalPanel.add(stackPanel);
+        leftVerticalPanel.add(textbox);
+        
 	    // Add some content
-	    hSplit.setLeftWidget(stackPanel);
+	    hSplit.setLeftWidget(leftVerticalPanel);
 	    hSplit.setRightWidget(flexTable);
 
 	    // Wrap the split panel in a decorator panel
@@ -69,56 +125,10 @@ public class Shakesphere implements EntryPoint {
 	    
 	    RootPanel.get().add(decPanel);
 	    
-	    AsyncCallback<Scene> sceneAsync = new AsyncCallback<Scene>()
-		{
-			public void onSuccess(Scene scene)
-			{
-				flexTable.removeAllRows();
-				for (int i = 0; i < scene.getSceneInfo().getNumberOfEvents(); i++)
-				{
-					SceneEvent sceneEvent = scene.getEvent(i);
-					Speech speech = (Speech)sceneEvent;
-					FlexTable speechFlexTable = getSpeechFlexTable(speech);
-					addRow(flexTable, speechFlexTable);
-				}
-			}
-			
-			public void onFailure(Throwable caught) {
-			}
-		};
 	    
-	    AsyncCallback<PlayInfo> playInfoAsync = new AsyncCallback<PlayInfo>()
-		{
-			public void onSuccess(PlayInfo info)
-			{
-				stackPanel.clear();
-				
-				ActInfo[] actInfoArray = info.getActInfoArray();
-				
-				for (int i = 0; i < actInfoArray.length; i++)
-				{
-					ActInfo actInfo = actInfoArray[i];
-					SceneInfo[] sceneInfoArray = actInfo.getSceneInfoArray();
-					
-					Tree scenesTree = new Tree();
-					for (int j = 0; j < sceneInfoArray.length; j++)
-					{
-						scenesTree.addItem(sceneInfoArray[j].getTitle());
-					}
-					
-					//int currentAct = stackPanel.getSelectedIndex();
-					
-					stackPanel.add(scenesTree, actInfo.getTitle());
-				}
-			}
-			
-			public void onFailure(Throwable caught) {
-				hSplit.setRightWidget(new HTML(SERVER_ERROR));
-			}
-		};
 		
-		greetingService.getPlayInfo("dummy for now", playInfoAsync);
-		greetingService.getScene("woo", 0, 0, sceneAsync);
+		greetingService.getPlayInfo("hamlet", playInfoAsync);
+		greetingService.getScene("hamlet", 0, 0, sceneAsync);
 	}
 	
 	private void addRow(FlexTable flexTable, Widget widget)
@@ -143,6 +153,34 @@ public class Shakesphere implements EntryPoint {
 		}
 		
 		return flexTable;
+	}
+	
+	private void loadNewPlay()
+	{
+		String tbText = textbox.getText();
+		greetingService.getPlayInfo(tbText, playInfoAsync);
+		greetingService.getScene(tbText, 0, 0, sceneAsync);
+	}
+	
+	class TextBoxHandler implements KeyUpHandler, MouseUpHandler {
+		public void onKeyUp(KeyUpEvent event) {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				loadNewPlay();
+			}
+		}
+
+		@Override
+		public void onMouseUp(MouseUpEvent event) {
+			flexTable.clear();
+			
+			ListBox listBox = (ListBox)event.getSource();
+			int listIndex = listBox.getSelectedIndex();
+			
+			String tbText = textbox.getText();
+			int actIndex = stackPanel.getSelectedIndex();
+			
+			greetingService.getScene(tbText, listIndex, actIndex, sceneAsync);
+		}
 	}
 		/*
 		final Button sendButton = new Button("Send");

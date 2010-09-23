@@ -3,6 +3,7 @@ package edu.vt.kplin.shakesphere.server;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -95,7 +96,7 @@ public class PlayParser
 	
 	private static SceneEvent[] parseEvents(NodeList eventNodeList) throws XPathExpressionException
 	{
-		ArrayList<SceneEvent> eventArrayList = new ArrayList<SceneEvent>();
+		ArrayList<Speech> eventArrayList = new ArrayList<Speech>();
 		
 		for (int i = 0; i < eventNodeList.getLength(); i++)
 		{
@@ -111,6 +112,8 @@ public class PlayParser
 				//TODO implement for stage dir
 			}
 		}
+		
+		Collections.sort(eventArrayList);
 		
 		SceneEvent[] eventArray = new SceneEvent[eventArrayList.size()];
 		return eventArrayList.toArray(eventArray);

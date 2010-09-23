@@ -3,7 +3,7 @@ package edu.vt.kplin.shakesphere.client;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class Speech extends SceneEvent implements Serializable {
+public class Speech extends SceneEvent implements Serializable, Comparable<Speech>{
 	
 	private String speaker;
 	private SpeechEvent[] speechEvents;
@@ -26,4 +26,11 @@ public class Speech extends SceneEvent implements Serializable {
 		return speechEvents;
 	}
 
+	@Override
+	public int compareTo(Speech otherSpeech) {
+		int thisLength = this.getSpeechEvents().length;
+		int thatLength = otherSpeech.getSpeechEvents().length;
+		
+		return thisLength - thatLength;
+	}
 }

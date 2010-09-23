@@ -58,7 +58,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public PlayInfo getPlayInfo(String playName) throws IllegalArgumentException {
 		try {
-			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/hamlet.xml");
+			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/"+ playName +".xml");
 			return play.getPlayInfo();
 			
 		} catch (XPathExpressionException e) {
@@ -83,7 +83,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	{
 		try
 		{
-			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/hamlet.xml");
+			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/"+ playName +".xml");
 			Act act = play.getAct(actIndex);
 			Scene scene = act.getScene(sceneIndex);
 			return scene;

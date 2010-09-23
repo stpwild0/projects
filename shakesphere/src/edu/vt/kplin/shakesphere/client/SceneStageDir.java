@@ -3,7 +3,7 @@ package edu.vt.kplin.shakesphere.client;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class SceneStageDir extends SceneEvent implements Serializable {
+public class SceneStageDir extends SceneEvent implements Serializable{
 	private String text;
 	
 	@SuppressWarnings("unused")
