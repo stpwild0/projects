@@ -67,11 +67,22 @@ public class Shakesphere implements EntryPoint {
 			{
 				stackPanel.clear();
 				
-				ActInfo[] actInfos = info.getActInfoArray();
+				ActInfo[] actInfoArray = info.getActInfoArray();
 				
-				for (int i = 0; i < actInfos.length; i++)
+				for (int i = 0; i < actInfoArray.length; i++)
 				{
-					stackPanel.add(new HTML("wewt!!!"), actInfos[i].getTitle() + "!!");
+					ActInfo actInfo = actInfoArray[i];
+					SceneInfo[] sceneInfoArray = actInfo.getSceneInfoArray();
+					
+					Tree scenesTree = new Tree();
+					for (int j = 0; j < sceneInfoArray.length; j++)
+					{
+						scenesTree.addItem(sceneInfoArray[j].getTitle());
+					}
+					
+					int currentAct = stackPanel.getSelectedIndex();
+					
+					stackPanel.add(scenesTree, actInfo.getTitle());
 				}
 			}
 			
