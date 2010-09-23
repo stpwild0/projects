@@ -38,6 +38,12 @@ public class Shakesphere implements EntryPoint {
 				SceneEvent sceneEvent = scene.getEvent(i);
 				Speech speech = (Speech)sceneEvent;
 				FlexTable speechFlexTable = getSpeechFlexTable(speech);
+				
+				if (i%2 == 0)
+					speechFlexTable.addStyleName("evenRowSpeech");
+				else
+					speechFlexTable.addStyleName("oddRowSpeech");
+				
 				addRow(flexTable, speechFlexTable);
 			}
 		}
@@ -100,7 +106,7 @@ public class Shakesphere implements EntryPoint {
 		
 		TextBoxHandler tbHandler = new TextBoxHandler();
 		textbox.addKeyUpHandler(tbHandler);
-		textbox.setText("hamlet");
+		textbox.setText("Hamlet");
 		
 	    // Create a Horizontal Split Panel
 	    //hSplit.ensureDebugId("cwHorizontalSplitPanel");
@@ -114,8 +120,10 @@ public class Shakesphere implements EntryPoint {
         flexTable.setCellPadding(3);
 	    
         final VerticalPanel leftVerticalPanel = new VerticalPanel();
-        leftVerticalPanel.add(stackPanel);
+        leftVerticalPanel.setSpacing(10);
         leftVerticalPanel.add(textbox);
+        leftVerticalPanel.add(stackPanel);
+        
         
 	    // Add some content
 	    hSplit.setLeftWidget(leftVerticalPanel);
@@ -148,7 +156,6 @@ public class Shakesphere implements EntryPoint {
 		
 		for (int j = 0; j < speechEventArray.length; j++)
 		{
-			
 			SpeechEvent speechEvent = speechEventArray[j];
 			SpeechLine speechLine = (SpeechLine) speechEvent;
 			flexTable.setWidget(j, 1, new HTML(speechLine.getText()));
