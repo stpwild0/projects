@@ -55,10 +55,10 @@ public class PlayParser
 		{
 			Element actElement = (Element)actsNodeList.item(i);
 			
-			XPathExpression titleXPath = xPathFact.newXPath().compile("/TITLE/text()");
+			XPathExpression titleXPath = xPathFact.newXPath().compile("TITLE/text()");
 			String title = titleXPath.evaluate(actElement);
 			
-			XPathExpression scenesXPath = xPathFact.newXPath().compile("/SCENE");
+			XPathExpression scenesXPath = xPathFact.newXPath().compile("SCENE");
 			NodeList scenes = (NodeList)scenesXPath.evaluate(actElement, XPathConstants.NODESET);
 			Scene[] sceneArray = parseScenes(scenes);
 			
@@ -78,10 +78,10 @@ public class PlayParser
 		{
 			Element sceneElement = (Element)scenesNodeList.item(i);
 			
-			XPathExpression titleXPath = xPathFact.newXPath().compile("/TITLE/text()");
+			XPathExpression titleXPath = xPathFact.newXPath().compile("TITLE/text()");
 			String title = titleXPath.evaluate(sceneElement);
 			
-			XPathExpression eventsXPath = xPathFact.newXPath().compile("/SPEECH | /STAGEDIR");
+			XPathExpression eventsXPath = xPathFact.newXPath().compile("SPEECH | STAGEDIR");
 			NodeList events = (NodeList)eventsXPath.evaluate(sceneElement, XPathConstants.NODESET);
 			SceneEvent[] eventArray = parseEvents(events);
 			
@@ -118,10 +118,10 @@ public class PlayParser
 	
 	private static Speech parseSpeech(Element speechElement) throws XPathExpressionException
 	{
-		XPathExpression speakerXPath = xPathFact.newXPath().compile("/SPEAKER/text()");
+		XPathExpression speakerXPath = xPathFact.newXPath().compile("SPEAKER/text()");
 		String speaker = speakerXPath.evaluate(speechElement);
 		
-		XPathExpression speechEventXPath = xPathFact.newXPath().compile("/LINE | /STAGEDIR");
+		XPathExpression speechEventXPath = xPathFact.newXPath().compile("LINE | STAGEDIR");
 		NodeList speechEventNodeList = (NodeList)speechEventXPath.evaluate(speechElement, XPathConstants.NODESET);
 		SpeechEvent[] speechEventArray = parseSpeechEvents(speechEventNodeList);
 		

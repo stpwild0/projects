@@ -33,7 +33,7 @@ public class Shakesphere implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		Tree actTree = new Tree();
+		final Tree actTree = new Tree();
 		TreeItem scene1 = actTree.addItem("scene 1");
 		TreeItem scene2 = actTree.addItem("Scene 2");
 		scene1.addItem("woo");
@@ -41,8 +41,8 @@ public class Shakesphere implements EntryPoint {
 		scene2.addItem("woo3");
 		scene2.addItem("woo4");
 		
-		StackPanel stackPanel = new DecoratedStackPanel();
-		stackPanel.setSize("100pc", "100pc");
+		final StackPanel stackPanel = new DecoratedStackPanel();
+		stackPanel.setSize("20pc", "40pc");
 		stackPanel.add(actTree, "acts");
 		
 	    // Create a Horizontal Split Panel
@@ -60,6 +60,26 @@ public class Shakesphere implements EntryPoint {
 	    decPanel.setWidget(hSplit);
 	    
 	    RootPanel.get().add(decPanel);
+	    
+	    AsyncCallback<PlayInfo> playInfoAsync = new AsyncCallback<PlayInfo>()
+		{
+			public void onSuccess(PlayInfo info)
+			{
+				stackPanel.clear();
+				
+				ActInfo[] actInfos = info.getActInfoArray();
+				
+				for (int i = 0; i < actInfos.length; i++)
+				{
+					stackPanel.add(new HTML("wewt!!!"), actInfos[i].getTitle() + "!!");
+				}
+			}
+			
+			public void onFailure(Throwable caught) {
+			}
+		};
+		
+		greetingService.getPlayInfo("dummy for now", playInfoAsync);
 	}
 		/*
 		final Button sendButton = new Button("Send");
