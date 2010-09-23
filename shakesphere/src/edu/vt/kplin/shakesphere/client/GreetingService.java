@@ -9,4 +9,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 	PlayInfo getPlayInfo(String playName) throws IllegalArgumentException;
+	Scene getScene(String playName, int actIndex, int sceneIndex);
 }

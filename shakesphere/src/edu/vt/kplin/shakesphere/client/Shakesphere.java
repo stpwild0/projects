@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -46,20 +47,45 @@ public class Shakesphere implements EntryPoint {
 		stackPanel.add(actTree, "acts");
 		
 	    // Create a Horizontal Split Panel
-	    HorizontalSplitPanel hSplit = new HorizontalSplitPanel();
+	    final HorizontalSplitPanel hSplit = new HorizontalSplitPanel();
 	    //hSplit.ensureDebugId("cwHorizontalSplitPanel");
 	    hSplit.setSize("80pc", "50pc");
 	    hSplit.setSplitPosition("30%");
-
+	   
+        final FlexTable flexTable = new FlexTable();
+        //FlexCellFormatter cellFormatter = flexTable.getFlexCellFormatter();
+        flexTable.addStyleName("cw-FlexTable");
+        flexTable.setWidth("32em");
+        flexTable.setCellSpacing(5);
+        flexTable.setCellPadding(3);
+	    
 	    // Add some content
-	    hSplit.setRightWidget(new HTML("asdfasdf asdfasfd"));
 	    hSplit.setLeftWidget(stackPanel);
+	    hSplit.setRightWidget(flexTable);
 
 	    // Wrap the split panel in a decorator panel
 	    DecoratorPanel decPanel = new DecoratorPanel();
 	    decPanel.setWidget(hSplit);
 	    
 	    RootPanel.get().add(decPanel);
+	    
+	    AsyncCallback<Scene> sceneAsync = new AsyncCallback<Scene>()
+		{
+			public void onSuccess(Scene scene)
+			{
+				flexTable.removeAllRows();
+				for (int i = 0; i < scene.getSceneInfo().getNumberOfEvents(); i++)
+				{
+					SceneEvent sceneEvent = scene.getEvent(i);
+					Speech speech = (Speech)sceneEvent;
+					FlexTable speechFlexTable = getSpeechFlexTable(speech);
+					addRow(flexTable, speechFlexTable);
+				}
+			}
+			
+			public void onFailure(Throwable caught) {
+			}
+		};
 	    
 	    AsyncCallback<PlayInfo> playInfoAsync = new AsyncCallback<PlayInfo>()
 		{
@@ -80,17 +106,43 @@ public class Shakesphere implements EntryPoint {
 						scenesTree.addItem(sceneInfoArray[j].getTitle());
 					}
 					
-					int currentAct = stackPanel.getSelectedIndex();
+					//int currentAct = stackPanel.getSelectedIndex();
 					
 					stackPanel.add(scenesTree, actInfo.getTitle());
 				}
 			}
 			
 			public void onFailure(Throwable caught) {
+				hSplit.setRightWidget(new HTML(SERVER_ERROR));
 			}
 		};
 		
 		greetingService.getPlayInfo("dummy for now", playInfoAsync);
+		greetingService.getScene("woo", 0, 0, sceneAsync);
+	}
+	
+	private void addRow(FlexTable flexTable, Widget widget)
+	{
+		int rowCount = flexTable.getRowCount();
+		flexTable.setWidget(rowCount, 0, widget);
+	}
+	
+	private FlexTable getSpeechFlexTable(Speech speech)
+	{
+		FlexTable flexTable = new FlexTable();
+		flexTable.setWidget(0, 0, new HTML(speech.getSpeaker()));
+		
+		SpeechEvent[] speechEventArray = speech.getSpeechEvents();
+		
+		for (int j = 0; j < speechEventArray.length; j++)
+		{
+			
+			SpeechEvent speechEvent = speechEventArray[j];
+			SpeechLine speechLine = (SpeechLine) speechEvent;
+			flexTable.setWidget(j, 1, new HTML(speechLine.getText()));
+		}
+		
+		return flexTable;
 	}
 		/*
 		final Button sendButton = new Button("Send");

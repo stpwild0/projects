@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import edu.vt.kplin.shakesphere.client.GreetingService;
 import edu.vt.kplin.shakesphere.client.PlayInfo;
+import edu.vt.kplin.shakesphere.client.Scene;
 import edu.vt.kplin.shakesphere.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -75,5 +76,21 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 		
 		throw new IllegalArgumentException();
+	}
+	
+	@Override
+	public Scene getScene(String playName, int actIndex, int sceneIndex) throws IllegalArgumentException
+	{
+		try
+		{
+			Play play = PlayParser.parsePlay("WEB-INF/shakesphere/hamlet.xml");
+			Act act = play.getAct(actIndex);
+			Scene scene = act.getScene(sceneIndex);
+			return scene;
+		}
+		catch (Exception e)
+		{
+			throw new IllegalArgumentException();
+		}
 	}
 }
