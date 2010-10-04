@@ -49,7 +49,7 @@ public class PlayParser
 	}
 	
 	private static Act[] parseActs(NodeList actsNodeList) throws XPathExpressionException
-	{	
+	{
 		ArrayList<Act> actsArrayList = new ArrayList<Act>();
 		
 		for (int i = 0; i < actsNodeList.getLength(); i++)
