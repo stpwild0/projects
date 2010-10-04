@@ -6,7 +6,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
 		<servlet-name>Ecolocate_server</servlet-name>
-		<servlet-class>com.ecolocate.server.Ecolocate_serverServlet</servlet-class>
+		<servlet-class>com.wild0.ecolocate.server.Ecolocate_serverServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Ecolocate_server</servlet-name>
@@ -14,11 +14,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet-mapping>
 	<servlet>
         <servlet-name>sign</servlet-name>
-        <servlet-class>com.ecolocate.server.SignGuestbookServlet</servlet-class>
+        <servlet-class>com.wild0.ecolocate.server.SignGuestbookServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>location</servlet-name>
-        <servlet-class>com.ecolocate.server.LocationServlet</servlet-class>
+        <servlet-class>com.wild0.ecolocate.server.LocationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>location</servlet-name>
