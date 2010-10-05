@@ -21,7 +21,6 @@ public class LocationParser extends DefaultHandler
 		mXml = xml;
 	}
 	
-	
 	public Location parse() {
 		Handler handler = new Handler();
 		
