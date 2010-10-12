@@ -54,7 +54,6 @@ public class FriendsList extends Activity{
                 ping();
             }
         });
-        
     }
     
     public void ping()

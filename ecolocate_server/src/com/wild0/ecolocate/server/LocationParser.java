@@ -79,5 +79,4 @@ public class LocationParser extends DefaultHandler
 			return new Location(longitude, latitude, date);
 		}
 	}
-	
 }
