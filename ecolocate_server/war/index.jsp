@@ -16,6 +16,7 @@
     <TEXTAREA name="content" rows="20" cols="80"><location>
 <longitude>23.421</longitude>
 <latitude>113.32</latitude>
+<accuracy>32.00000</accuracy>
 <time><%= System.currentTimeMillis() %></time>
 </location></TEXTAREA>
     <br>

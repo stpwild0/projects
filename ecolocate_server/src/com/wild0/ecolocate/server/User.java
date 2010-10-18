@@ -14,10 +14,10 @@ public class User {
 	@Persistent(dependent = "true")
     private Location location;
     
-    public User(String username)
+    public User(String username, Location location)
     {
     	this.username = username.toLowerCase();
-    	location = null;
+    	this.location = location;
     }
 
     public String getUsername() {
@@ -26,9 +26,5 @@ public class User {
 
     public Location getLocation() {
         return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 }

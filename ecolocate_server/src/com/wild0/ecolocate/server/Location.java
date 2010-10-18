@@ -35,16 +35,20 @@ public class Location
 	private double latitude;
 	
 	@Persistent
+	private float accuracy;
+	
+	@Persistent
 	private Date date;
 	
-	public Location (double longitude, double latitude, Date date)
+	public Location (double longitude, double latitude, float accuracy, Date date)
 	{
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.accuracy = accuracy;
 		this.date = date;
 	}
 	
-	public Location parse(String xml) {
+	public Location(String xml) {
 		Handler handler = new Handler();
 		
 		try {
@@ -58,19 +62,23 @@ public class Location
 			ie.printStackTrace();
 		}
 		
-		return handler.getLocation();
+		this.longitude = handler.longitude;
+		this.latitude = handler.latitude;
+		this.accuracy = handler.accuracy;
+		this.date = handler.date;
 	}
 	
 	public void updateLocation (Location location)
 	{
 		this.longitude = location.longitude;
 		this.latitude = location.latitude;
+		this.accuracy = location.accuracy;
 		this.date = location.date;
 	}
 	
 	public String toString()
 	{
-		return String.format("%2.2f %2.2f %s", longitude, latitude, date);
+		return String.format("%2.2f %2.2f acc:%2.2f %s", longitude, latitude, accuracy, date);
 	}
 
 	public void setKey(Key key) {
@@ -81,12 +89,21 @@ public class Location
 		return key;
 	}
 	
-	public class Handler extends DefaultHandler
+	public String getXml()
+	{
+		String xml = String.format("<location><longitude>%f</longitude><latitude>%f</latitude><accuracy>%f</accuracy><time>%d</time></location>",
+			this.longitude, this.latitude, this.accuracy, this.date.getTime());
+		
+		return xml;
+	}
+	
+	protected class Handler extends DefaultHandler
 	{
 		String tempVal;
-		double longitude;
-		double latitude;
-		Date date;
+		public double longitude;
+		public double latitude;
+		public float accuracy;
+		public Date date;
 		
 		public void startElement(String uri, String localName, String qName, Attributes attributes)
 			throws SAXException
@@ -115,11 +132,10 @@ public class Location
 			{
 				date = new Date(Long.parseLong(tempVal));
 			}
-		}
-		
-		public Location getLocation()
-		{
-			return new Location(longitude, latitude, date);
+			else if (qName.equalsIgnoreCase("accuracy"))
+			{
+				accuracy = Float.parseFloat(tempVal);
+			}
 		}
 	}
 	

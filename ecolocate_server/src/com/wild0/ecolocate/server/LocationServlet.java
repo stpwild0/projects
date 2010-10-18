@@ -18,23 +18,19 @@ public class LocationServlet extends HttpServlet {
 	{
 		try
 		{
+			resp.setContentType("text/xml");
+			Writer writer = resp.getWriter();
+			
 			/*
 			 * UserService userService = UserServiceFactory.getUserService();
 	        User user = userService.getCurrentUser();
 			 */
 			String postedXml = req.getParameter("content");
-			LocationParser xmlParser = new LocationParser(postedXml);
-			Location newLocation = xmlParser.parse();
+			Location newLocation = new Location(postedXml);
+			Location oldLocation = newLocation;
+			String locationString = newLocation.getXml();
 			
 			String username = "woo".toLowerCase();
-			
-			Writer writer = resp.getWriter();
-			
-			Location oldLocation = null;
-			
-			String oldLoc = "";
-			
-			resp.setContentType("text/plain");
 			
 			User user = null;
 			
@@ -47,26 +43,25 @@ public class LocationServlet extends HttpServlet {
 	        	List<User> results = (List<User>) query.execute(username);
 	        	ArrayList<User> users = new ArrayList(results);
 	        	
-	        	if (users.size() < 0)
+	        	if (users.size() == 0)
 	        	{
-	        		
-	        	}
-	        	else if (users.size() == 0)
-	        	{
-	        		user = new User(username);
+	        		user = new User(username, newLocation);
 	        		pm.makePersistent(user);
 	        	}
 	        	else if (users.size() > 0)
 	        	{
 	        		user = users.get(0);
 	        		oldLocation = user.getLocation();
-	        		oldLoc = oldLocation.toString();
+	        		locationString = oldLocation.getXml();
 	        	}
 	        	
 	        	Transaction tx = pm.currentTransaction();
 	        	
 	        	tx.begin();
-	        	oldLocation.updateLocation(newLocation);
+	        	if (oldLocation != null)
+	        	{
+	        		oldLocation.updateLocation(newLocation);
+	        	}
 	        	tx.commit();
 	        	
 	        }
@@ -77,12 +72,7 @@ public class LocationServlet extends HttpServlet {
 	            pm.close();
 	        }
 	        
-	        
-	        String writeString = "welcome new user!";
-	        if (oldLocation != null)
-	        	writeString = oldLoc;
-	        
-			writer.write(writeString);
+			writer.write(locationString);
 		}
 		catch (IOException e)
 		{

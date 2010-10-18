@@ -3,7 +3,6 @@ package com.wild0.ecolocate.android;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,15 +11,11 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-
-import com.wild0.ecolocate.android.R;
 
 import android.app.Activity;
 import android.content.Context;
@@ -64,19 +59,18 @@ public class FriendsList extends Activity{
     	return;
     }
     
-    public void updateLocation(Location location)
+    public void updateLocation(android.location.Location androidLoc)
     {
+    	LocationE location = new LocationE(androidLoc);
     	Date time = new Date(location.getTime());
-    	//String locString = "cool";
-    	String locString = String.format("lat:%2.2f acc:%1.0f t:%s", location.getLatitude(), location.getAccuracy(), time.toString());
     	
-    	updateText(XmlBuilder.location(location));
+    	updateText(location.toString());
     	
     	if (location.getAccuracy() < 100)
     	{
     		locationManager.removeUpdates(filteredLocation);
-    		String xml = XmlBuilder.location(location);
-    		//updateText("calling server now");
+    		String xml = location.getXml();
+    		updateText("calling server now");
     		new GetServerResponse().execute(xml);
     	}
     }
@@ -91,12 +85,11 @@ public class FriendsList extends Activity{
         protected String doInBackground(String... xmls) {
         	String payload = xmls[0];
         	
-        	URL appEngineUrl;
+        	String appEngineUrl = "http://ecolocate-wild0.appspot.com/location";
         	int responseCode = 0;
         	
 			try {
-				//HttpPost request = new HttpPost("http://10.0.2.2:8888/location");
-				HttpPost request = new HttpPost("http://ecolocate-wild0.appspot.com/location");
+				HttpPost request = new HttpPost(appEngineUrl);
 				List<NameValuePair> form = new ArrayList<NameValuePair>();
 				form.add(new BasicNameValuePair("content", payload));
 				
@@ -118,7 +111,10 @@ public class FriendsList extends Activity{
 					  while ((line = in.readLine()) != null) {
 					    buffer.append(line);
 					  }
-					  return payload + " " + buffer.toString();
+					  
+					  LocationE loc = new LocationE("remote", buffer.toString());
+					  
+					  return loc.toString();
 	        	//	}
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -131,8 +127,8 @@ public class FriendsList extends Activity{
             return Integer.toString(responseCode);
         }
         
-        protected void onPostExecute(String returnText) {
-        	updateText(returnText);
+        protected void onPostExecute(String displayText) {
+        	updateText(displayText);
         }
     }
     
