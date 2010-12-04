@@ -76,8 +76,15 @@ class OptimalPairingCalculator
 
 			@engineers.push Engineer.new rank
 		end
-
 	end
+
+	def calculate
+		matrix = Array.new
+		matrix[0][0] = 0
+		puts matrix[0][0].to_s
+	end
+
 end
 
 calculator = OptimalPairingCalculator.new
+calculator.calculate

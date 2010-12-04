@@ -5,3 +5,11 @@ ZKs
 pushlet
 sensor_server
 *.*~
+Test
+*.swp
+android1
+kernel
+notepad_lab
+python
+ror_blog_example
+doi_tshirt
